@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -11,17 +13,18 @@ class AuthController extends Controller
         return view('sign-up');
     }
 
-    public function processSignUp(Request $request)
-    {
-        // Validate the request data
+    public function processSignUp(Request $request){
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Process the sign-up logic, e.g., create the user in the database
-        // ...
+        User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']), 
+        ]);
 
         return redirect()->route('sign-up')->with('success', 'Sign-up successful!');
     }
