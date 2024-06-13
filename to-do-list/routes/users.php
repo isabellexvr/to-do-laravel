@@ -9,3 +9,4 @@ Route::post('/sign-up', [AuthController::class, 'processSignUp'])->name('process
 
 Route::get('/sign-in', [AuthController::class, 'showSignInForm'])->name('sign-in');
 Route::post('/sign-in', [AuthController::class, 'processSignIn'])->name('process-sign-in');
+
